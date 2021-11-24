@@ -2,9 +2,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 cmake_minimum_required(VERSION 3.5.1)
 project(Ramone)
 
-# option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
-
-
 set(PUBLIC_HDRS
     include/socketcan.hpp
 )
