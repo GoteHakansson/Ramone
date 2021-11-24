@@ -1,15 +1,18 @@
 #include "../include/InputHandler.hpp"
 
-void inputWindowInit(){
+void inputWindowInit()
+{
     initscr();
     keypad(stdscr, TRUE);
     cbreak();
     noecho();
 }
 
-UserInput::UserInput(){
+UserInput::UserInput()
+{
     inputWindowInit();
-    if (sockat_can.open("vcan0") != scpp::STATUS_OK){
+    if (sockat_can.open("vcan0") != scpp::STATUS_OK)
+    {
         printw("Could not initialize CAN-network");
         exit(1);
     }
@@ -21,22 +24,27 @@ UserInput::UserInput(){
     printw(" position. To accelerate use UP-key and deaccelerate use DOWN-key. To change the gear lever press [p/d/n/r]-keys. To turn off press s-key.\n");
 }
 
-void UserInput::PrintSensorValues(){
-    std::cout << "The position of the acceleration pedal is: " << accPedalPos << std::endl << "\r";
+void UserInput::PrintSensorValues()
+{
+    std::cout << "The position of the acceleration pedal is: " << accPedalPos << std::endl
+              << "\r";
     std::cout << "The position of the gear lever is: " << GearLever(gearLeverPos) << "\n\r";
-
 }
 
-void UserInput::Sensing(int input){
-    switch(input){
-    
+void UserInput::Sensing(int input)
+{
+    switch (input)
+    {
+
     case KEY_UP:
-        if(accPedalPos < 100){
+        if (accPedalPos < 100)
+        {
             this->accPedalPos = accPedalPos + 5;
         }
         break;
     case KEY_DOWN:
-        if(accPedalPos > 0){
+        if (accPedalPos > 0)
+        {
             this->accPedalPos = accPedalPos - 5;
         }
         break;
@@ -53,33 +61,40 @@ void UserInput::Sensing(int input){
         this->gearLeverPos = R;
         break;
     case 115:
-        this->ignition= Off;
+        this->ignition = Off;
         break;
     default:
         break;
     }
 }
 
-bool UserInput::IsRunning(){
-    if(ignition == On){
+bool UserInput::IsRunning()
+{
+    if (ignition == On)
+    {
         return true;
-    } else{
+    }
+    else
+    {
         return false;
     }
 }
 
-int UserInput::getAccPedalPos() {
+int UserInput::getAccPedalPos()
+{
     return accPedalPos;
 }
 
-void UserInput::ValuesToCan(){
+void UserInput::ValuesToCan()
+{
     int a[3];
     a[0] = accPedalPos;
     a[1] = gearLeverPos;
     a[2] = ignition;
-    sockat_can.send(a,3);
- }
+    sockat_can.send(a, 3);
+}
 
-GearLever UserInput::getGearLeverPosition(){
+GearLever UserInput::getGearLeverPosition()
+{
     return gearLeverPos;
 }

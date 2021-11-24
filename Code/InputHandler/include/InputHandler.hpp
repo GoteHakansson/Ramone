@@ -8,25 +8,36 @@
 #include <ncurses.h>
 #include "../../libSocketCan/include/socketcan.hpp"
 
-enum GearLever{P,D,N,R};
-enum Ignition{Off,On};
+enum GearLever
+{
+    P,
+    D,
+    N,
+    R
+};
+enum Ignition
+{
+    Off,
+    On
+};
 
-class UserInput{
-    private: 
-        int accPedalPos = 0;
-        GearLever gearLeverPos = N;
-        //bool sensorRunning = true;
-        Ignition ignition = On;
-        scpp::SocketCan sockat_can;
+class UserInput
+{
+private:
+    int accPedalPos = 0;
+    GearLever gearLeverPos = N;
+    // bool sensorRunning = true;
+    Ignition ignition = On;
+    scpp::SocketCan sockat_can;
 
-    public:
-        UserInput();
-        int getAccPedalPos();
-        void Sensing(int input);
-        void PrintSensorValues();
-        bool IsRunning();
-        void ValuesToCan();
-        GearLever getGearLeverPosition();
+public:
+    UserInput();
+    int getAccPedalPos();
+    void Sensing(int input);
+    void PrintSensorValues();
+    bool IsRunning();
+    void ValuesToCan();
+    GearLever getGearLeverPosition();
 };
 
 void inputWindowInit();
